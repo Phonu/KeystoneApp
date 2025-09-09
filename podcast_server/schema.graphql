@@ -279,6 +279,7 @@ type Mutation {
   endSession: Boolean!
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
+  registerUser(name: String!, email: String!, password: String!): RegisterResponse
 }
 
 union UserAuthenticationWithPasswordResult = UserAuthenticationWithPasswordSuccess | UserAuthenticationWithPasswordFailure
@@ -311,6 +312,7 @@ type Query {
   artistsCount(where: ArtistWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
+  getRecommendedPodcasts(userId: ID!): [PodcastRecommendation]
 }
 
 union AuthenticatedItem = User
@@ -449,4 +451,28 @@ type KeystoneAdminUISort {
 enum KeystoneAdminUISortDirection {
   ASC
   DESC
+}
+
+type RegisterResponse {
+  user: User
+}
+
+type PodcastRecommendation {
+  id: ID!
+  title: String!
+  category: String!
+  video_url: String
+  artwork: String
+  lyricist: String
+  type: String!
+  audio_url: String
+  artist: ArtistInfo
+  isFavourite: Boolean!
+}
+
+type ArtistInfo {
+  id: ID!
+  name: String!
+  bio: String
+  photo: String
 }
